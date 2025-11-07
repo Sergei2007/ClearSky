@@ -1,5 +1,20 @@
 # Создание основного окна
 root = tk.Tk()
 root.title("Weather App")
-root.geometry("1200x700")
+root.geometry("1200x600")
 root.resizable(False, False)
+
+# Путь к изображению(Фон)
+image_path = r"f:\img_weather\Q2hjaiEespo.jpg" 
+
+# Загрузка изображения
+if os.path.exists(image_path):
+    background_image = Image.open(image_path)
+    background_image = background_image.resize((1200, 600), Image.LANCZOS)
+    bg_image = ImageTk.PhotoImage(background_image)
+
+    # Создание метки с изображением
+    background_label = tk.Label(root, image=bg_image)
+    background_label.place(relwidth=1, relheight=1)  # Занять всю область окна
+else:
+    print("Файл не найден!")
