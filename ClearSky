@@ -1,5 +1,5 @@
 # Создание основного окна
 root = tk.Tk()
 root.title("Weather App")
-root.geometry("1200x600")
+root.geometry("1200x700")
 root.resizable(False, False)
