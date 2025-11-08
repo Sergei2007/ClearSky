@@ -32,4 +32,6 @@
 
 Операционная система: Windows
 
+Используемый API: OpenWeatherMap 
+
 
