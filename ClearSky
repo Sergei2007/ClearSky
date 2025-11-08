@@ -1,3 +1,26 @@
+weather_desc_rus = {
+    'clear sky': 'Ясное небо',
+    'few clouds': 'Небольшая облачность',
+    'scattered clouds': 'Рассеянные облака',
+    'broken clouds': 'Облачно с прояснениями',
+    'shower rain': 'Ливень',
+    'rain': 'Дождь',
+    'thunderstorm': 'Гроза',
+    'snow': 'Снег',
+    'mist': 'Туман',
+    'overcast clouds': 'Облачно'  # Добавлена запятая
+}
+days_of_week_rus = {
+    "Monday": "Понедельник",
+    "Tuesday": "Вторник",
+    "Wednesday": "Среда",
+    "Thursday": "Четверг",
+    "Friday": "Пятница",
+    "Saturday": "Суббота",
+    "Sunday": "Воскресенье"
+}
+
+
 # Создание основного окна
 root = tk.Tk()
 root.title("Weather App")
