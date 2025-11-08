@@ -1,3 +1,11 @@
+import tkinter as tk
+from tkinter import ttk
+import requests
+from datetime import datetime, timedelta
+import os
+from PIL import Image, ImageTk
+
+
 weather_desc_rus = {
     'clear sky': 'Ясное небо',
     'few clouds': 'Небольшая облачность',
