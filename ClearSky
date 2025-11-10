@@ -50,5 +50,31 @@ if os.path.exists(image_path):
 else:
     print("Файл не найден!")
 
+# Создаем рамку для выбора режима полета и оптимального времени
+flight_frame = tk.Frame(root, bg='#212120')
+flight_frame.grid(row=0, column=1, padx=(0, 50), pady=(20, 20), sticky='nsew')
+
+# Создаем метку для выбора режима полета
+flight_mode_label = tk.Label(flight_frame, text='Выберите режим полета:', font=('Roboto', 12), fg='white', bg='#212120')
+flight_mode_label.pack(pady=(10, 5))
+
+# Создаем выпадающий список для выбора режима полета
+flight_modes = ["Любительский", "Для съемок"]
+flight_mode_combobox = ttk.Combobox(flight_frame, values=flight_modes, state="readonly", width=20)
+flight_mode_combobox.pack(pady=(10, 5))
+flight_mode_combobox.current(0)  # Устанавливаем "Любительский" как выбранный по умолчанию
+
+# Заголовок для оптимального времени
+optimal_time_label = tk.Label(flight_frame, text='Оптимальное время', font=('Roboto', 14), fg='white', bg='#212120')
+optimal_time_label.pack(pady=(10, 5))
+
+# Метка для вывода информации о оптимальном времени
+optimal_time_output = tk.Label(flight_frame, text='', font=('Roboto', 12), fg='white', bg='#212120')
+optimal_time_output.pack(pady=(10, 5))
+
+# Создаем рамку для текущей погоды
+current_weather_frame = tk.Frame(root, bg='#203243')
+current_weather_frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 20), sticky='nsew')
+
 
 root.mainloop()
