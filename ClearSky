@@ -35,8 +35,8 @@ root.title("Weather App")
 root.geometry("1200x600")
 root.resizable(False, False)
 
-# Путь к изображению(Фон)
-image_path = r"f:\img_weather\Q2hjaiEespo.jpg" 
+# Путь к изображению
+image_path = r"f:\img_weather\Q2hjaiEespo.jpg"  # Укажите фактическое название вашего файла
 
 # Загрузка изображения
 if os.path.exists(image_path):
@@ -75,6 +75,62 @@ optimal_time_output.pack(pady=(10, 5))
 # Создаем рамку для текущей погоды
 current_weather_frame = tk.Frame(root, bg='#203243')
 current_weather_frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 20), sticky='nsew')
+
+# Метки для текущей погоды
+label_t = tk.Label(current_weather_frame, text='Температура', font=('Roboto', 14), fg='white', bg='#203243')
+label_t.grid(row=0, column=0, padx=(10, 10), pady=(10, 0))
+
+label_h = tk.Label(current_weather_frame, text='Влажность', font=('Roboto', 14), fg='white', bg='#203243')
+label_h.grid(row=1, column=0, padx=(10, 10), pady=(10, 0))
+
+t = tk.Label(current_weather_frame, font=('Roboto', 14), fg='white', bg='#203243')
+t.grid(row=0, column=1, padx=(10, 10), pady=(10, 10))
+
+h = tk.Label(current_weather_frame, font=('Roboto', 14), fg='white', bg='#203243')
+h.grid(row=1, column=1, padx=(10, 10), pady=(10, 10))
+
+wind_label = tk.Label(current_weather_frame, text='Ветер', font=('Roboto', 14), fg='white', bg='#203243')
+wind_label.grid(row=2, column=0, padx=(10, 10), pady=(10, 0))
+
+desc_label = tk.Label(current_weather_frame, text='Описание', font=('Roboto', 14), fg='white', bg='#203243')
+desc_label.grid(row=3, column=0, padx=(10, 10), pady=(10, 0))
+
+wind = tk.Label(current_weather_frame, font=('Roboto', 14), fg='white', bg='#203243')
+wind.grid(row=2, column=1, padx=(10, 10), pady=(10, 10))
+
+desc = tk.Label(current_weather_frame, font=('Roboto', 14), fg='white', bg='#203243')
+desc.grid(row=3, column=1, padx=(10, 10), pady=(10, 10))
+
+# Создаем строку ввода для поиска
+text_input = tk.Entry(root, width=15, font=('Roboto', 20, 'bold'), border=0)
+text_input.grid(row=1, column=0, padx=(20, 5), pady=(20, 5), sticky='nsew')
+
+# Кнопка поиска
+search_btn = tk.Button(root, text='Найти', borderwidth=0, cursor='hand2', command=lambda: get_weather(text_input.get()), font=('Roboto', 14), bg='white')
+search_btn.grid(row=1, column=1, padx=(5, 50), pady=(20, 5), sticky='nsew')
+
+# Создаем рамку для прогноза погоды
+frame_bottom = tk.Frame(root, bg='#212120')
+frame_bottom.grid(row=2, column=0, columnspan=2, sticky='ew', padx=20, pady=(20, 0))
+
+# Создание фреймов для 5 дней
+list_days = []
+for idx in range(5):
+    day_frame = tk.Frame(frame_bottom, bg='#282829')
+    day_frame.grid(row=0, column=idx, padx=(5, 0), pady=(10, 0))
+
+    img_label = tk.Label(day_frame, bg='#282829')
+    img_label.grid(row=0, column=0, padx=(5, 0), pady=(15, 0))
+
+    day_label = tk.Label(day_frame, font=('Roboto', 16), fg='white', bg='#282829')
+    day_label.grid(row=0, column=1, padx=(5, 5), pady=(5, 0))
+
+    temp_label = tk.Label(day_frame, bg="#282829", fg="#57adff", font=('Roboto', 12))
+    temp_label.grid(row=1, column=1, padx=(0, 5), pady=(10, 10))
+
+    list_days.append([day_label, img_label, temp_label])
+
+
 
 
 root.mainloop()
