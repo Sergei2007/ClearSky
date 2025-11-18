@@ -131,6 +131,112 @@ for idx in range(5):
     list_days.append([day_label, img_label, temp_label])
 
 
+def get_weather(city):
+    api_key = "Cекрет"  
+    url_weather = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={api_key}"
+
+    try:
+        response = requests.get(url_weather)
+        weather_data = response.json()
+
+        if response.status_code == 200:
+            temperature = weather_data['main']['temp']
+            humidity = weather_data['main']['humidity']
+            wind_speed = weather_data['wind']['speed']
+            description = weather_data['weather'][0]['description']
+            rain = weather_data.get('rain', {}).get('1h', 0)  # Получаем количество дождя за последний час, если доступно
+
+            # Обновление меток с полученными данными
+            t.config(text=f"{round(temperature)} °C")
+            h.config(text=f"{humidity}%")
+            wind.config(text=f"{wind_speed} м/с")
+            desc.config(text=description.capitalize())
+
+            # Переводим описание на русский
+            desc_rus = weather_desc_rus.get(description, description).capitalize()
+            desc.config(text=desc_rus)
+
+            # Получаем выбранный режим полета
+            selected_mode = flight_mode_combobox.get()
+            drone_launch_time = ""
+            # Получаем выбранный режим полета
+            selected_mode = flight_mode_combobox.get()
+            drone_launch_time = ""
+
+            if rain > 0:
+                drone_launch_time = "Идет дождь. Летать нельзя!"
+            else:
+                if selected_mode == "Любительский":
+                    if wind_speed == 0:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 1:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 2:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 3:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 4:
+                        drone_launch_time = "Чуть-чуть ветренно, но дрон запускать можно! Зарядки батареи хватит на 30 минут."
+                    elif wind_speed <= 5:
+                        drone_launch_time = "Чуть-чуть ветренно, но дрон запускать можно! Зарядки батареи хватит на 29 минут."
+                    elif wind_speed <= 6:
+                        drone_launch_time = "Запускать дрон можно, но будьте аккуратны! Дрон может сносить ветр! Зарядки батареи хватит на 27 минут"
+                    elif wind_speed <= 7:
+                        drone_launch_time = "Запускать дрон можно, но будьте аккуратны! Дрон может сносить ветр! Зарядки батареи хватит на 25 минут."
+                    elif wind_speed <= 7.5:
+                        drone_launch_time = "Запускать дрон можно, но будьте аккуратны! Дрон может сносить ветр! Зарядки батареи хватит на 25 минут."
+                    else:
+                        drone_launch_time = "Очень сильный ветер!Летать опасно!"
+                else:  # Для съемок
+                    if wind_speed == 0:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 1:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 2:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 3:
+                        drone_launch_time = "Отличная погода для запуска дрона! Зарядки батареи хватит на 31 минуту."
+                    elif wind_speed <= 4:
+                        drone_launch_time = "Чуть-чуть ветренно, но дрон запускать можно! Зарядки батареи хватит на 30 минут."
+                    elif wind_speed <= 5:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 6:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 7:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 7.5:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 8:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 9:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 10:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    elif wind_speed <= 11:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+                    else:
+                        drone_launch_time = "Сильно ветренно! Дрон будет сносить ветром!"
+
+            # Обновление текста с рекомендацией
+            optimal_time_output.config(text=drone_launch_time)
+
+            # Вызов функции для получения прогноза
+            get_forecast(city)
+        else:
+            t.config(text="Ошибка")
+            h.config(text="")
+            wind.config(text="")
+            desc.config(text="")
+            optimal_time_output.config(text="Город не найден")
+
+    except Exception as e:
+        t.config(text="Ошибка запроса")
+        optimal_time_output.config(text="")
+        print(f"Произошла ошибка: {e}")  # Выводим ошибку в консоль для отладки
+
+
+
+
 
 
 root.mainloop()
