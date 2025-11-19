@@ -235,8 +235,49 @@ def get_weather(city):
         print(f"Произошла ошибка: {e}")  # Выводим ошибку в консоль для отладки
 
 
+# Функция для получения прогноза погоды
+def get_forecast(city):
+    api_key = "e6fa7db4eb95de31a9f80e44fdd0498b"  # Замените на ваш API-ключ
+    url_forecast = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
 
+    try:
+        response = requests.get(url_forecast)
+        forecast_data = response.json()
 
+        if response.status_code == 200:
+            day_now = datetime.now()
 
+            # Обновляем данные для каждого дня
+            for idx in range(5):
+                day_data = forecast_data['list'][idx * 8]  # Получаем дневные данные (каждые 8 шагов)
+                current_day = day_now + timedelta(days=idx)
+
+                # Устанавливаем день недели
+                day_name = current_day.strftime("%A")
+                day_name_rus = days_of_week_rus.get(day_name, day_name)  # Переводим на русский
+                list_days[idx][0].config(text=day_name_rus)
+
+                # Получаем иконку и температурные данные
+                day_img = day_data['weather'][0]['icon']
+                path_icon = f'f:\img_weather/{day_img}.png'
+
+                # Проверяем наличие иконки
+                if os.path.exists(path_icon):
+                    img_icon = ImageTk.PhotoImage(Image.open(path_icon))
+                    list_days[idx][1].config(image=img_icon)
+                    list_days[idx][1].image = img_icon  # Сохраняем ссылку на изображение
+                else:
+                    list_days[idx][1].config(image='')  # Если иконки нет, очищаем
+
+                # Получаем максимальную и минимальную температуры
+                temp_max = round(day_data['main']['temp_max'])
+                temp_min = round(day_data['main']['temp_min'])
+                list_days[idx][2].config(text=f'Днем: {temp_max} °C\nВечером: {temp_min} °C')
+
+        else:
+            print("Ошибка получения прогноза погоды:", forecast_data.get("message", "Неизвестная ошибка"))
+
+    except Exception as e:
+        print(f"Произошла ошибка при получении прогноза: {e}")
 
 root.mainloop()
